@@ -18,10 +18,10 @@ jobs:
         include:
           - name: Windows x64
             os: windows-latest
-            target: --win
+            script: desktop:package:win
           - name: macOS universal
             os: macos-latest
-            target: --mac
+            script: desktop:package:mac
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
-      - run: pnpm desktop:package -- ${{ matrix.target }}
+      - run: pnpm ${{ matrix.script }}
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
       - uses: actions/upload-artifact@v4
