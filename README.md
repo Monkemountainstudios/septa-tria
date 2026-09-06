@@ -6,7 +6,7 @@ A standalone kaleidoscopic audiovisual instrument built around nested seven-fold
 
 Open the repository's **Releases** page and choose:
 
-- Windows: the installer or portable `.exe`
+- Windows: the portable `.exe`
 - macOS: the universal `.dmg` or `.zip` (Apple silicon and Intel)
 
 The first release is unsigned. Windows SmartScreen or macOS Gatekeeper may therefore ask for confirmation before opening it.
