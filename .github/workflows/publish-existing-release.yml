@@ -1,0 +1,34 @@
+name: Publish existing release artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful tagged workflow run ID
+        required: true
+      tag:
+        description: Existing release tag
+        required: true
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download tested platform packages
+        run: gh run download "$RUN_ID" --dir artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run_id }}
+      - name: Attach packages to release
+        shell: bash
+        run: |
+          mapfile -d '' files < <(find artifacts -type f -print0)
+          gh release upload "$RELEASE_TAG" "${files[@]}" --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
